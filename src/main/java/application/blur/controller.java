@@ -59,8 +59,8 @@ public class controller implements Callable<ResponseEntity>{
 	public ResponseEntity BlurImage()  throws IOException  {
 
 		// read the client's image
-				URL url = new URL("https://images.wallpaperscraft.com/image/sea_ice_glacier_148212_1024x600.jpg");
-				
+				//URL url = new URL("https://images.wallpaperscraft.com/image/sea_ice_glacier_148212_1024x600.jpg");
+				URL url = new URL("https://www.pixelstalk.net/wp-content/uploads/2016/07/1080p-Full-HD-Images-620x349.jpg");
 				BufferedImage originalImgage = ImageIO.read(url);
 
 				final HttpHeaders headers = new HttpHeaders();
@@ -94,6 +94,10 @@ public class controller implements Callable<ResponseEntity>{
 
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
+		ImageIO.write(originalImgage, "png", os);
+		return new ByteArrayInputStream(os.toByteArray());
+		
+		/*try {
 			int size = 20;
 			float weight = 1.0f / (size * size);
 
@@ -108,7 +112,7 @@ public class controller implements Callable<ResponseEntity>{
 			ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_ZERO_FILL, null);
 			BufferedImage blurred = op.filter(originalImgage, null);
 			ImageIO.write(blurred, "png", os);
-			return new ByteArrayInputStream(os.toByteArray());
+			return new ByteArrayInputStream(os.toByteArray());*/
 		
 		} catch (Exception e) {
 			System.out.println("CATCH!!");
