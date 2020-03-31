@@ -8,6 +8,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 import javax.imageio.ImageIO;
 
@@ -25,11 +28,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @EnableAutoConfiguration
-public class controller {
+public class controller implements Callable<ResponseEntity>{
 
 	@ResponseBody
 	@RequestMapping("/blur")
-	public ResponseEntity BlurImage()  throws IOException {
+	public ResponseEntity tmp() {
+		
+		FutureTask<ResponseEntity> fooFuture = new FutureTask<ResponseEntity>(this);
+		ResponseEntity x=null;
+		   new Thread(fooFuture).start();
+		   try {
+				 x= fooFuture.get();
+
+		} catch (InterruptedException e) {
+			System.err.println("Interrupted Exception ");
+		} catch (ExecutionException e) {
+			System.err.println("Execution Exception ");
+			if ( x == null)
+			{
+				System.err.println("Execution Exception result null ");
+				 e.printStackTrace();
+
+				x= new ResponseEntity(null, null, HttpStatus.SERVICE_UNAVAILABLE);
+			}
+		}
+		   return x;
+	}
+	
+	
+	public ResponseEntity BlurImage()  throws IOException  {
 
 		// read the client's image
 				URL url = new URL("https://images.wallpaperscraft.com/image/sea_ice_glacier_148212_1024x600.jpg");
@@ -89,6 +116,16 @@ public class controller {
 			System.out.println(e);
 			return null;
 		}
+	}
+
+
+
+
+	@Override
+	public ResponseEntity call() throws Exception {
+		// TODO Auto-generated method stub
+		ResponseEntity response= BlurImage();
+		return response;
 	}
 	
 }
