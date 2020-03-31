@@ -8,10 +8,9 @@
 		<version>2.2.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>Blur-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>blur-service</name>
+	<groupId>application.tmp</groupId>
+	<artifactId>tmp-service</artifactId>
+	<name>tmp-service</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -38,6 +37,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>tmp-service</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
